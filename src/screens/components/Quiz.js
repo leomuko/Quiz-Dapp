@@ -4,12 +4,12 @@ import Input from "./common/Input";
 import QuizDifficulty from "./common/DifficultySelect";
 import Button from "@mui/material/Button";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-export default function Quiz() {
-  const navigate = useNavigate();
+export default function Quiz(props) {
+  //const navigate = useNavigate();
   const [quizCount, setQuizCount] = React.useState("10");
   const [quizType, setQuizType] = React.useState("");
   const [quizDifficulty, setQuizDifficulty] = React.useState("easy");
@@ -34,14 +34,23 @@ export default function Quiz() {
           `https://opentdb.com/api.php?amount=${quizCount}&difficulty=${quizDifficulty}&category=${quizType}`
         )
         .then((response) => {
-          navigate("/play", {
-            state: {
-              quizData: response.data.results,
-              quizCount: quizCount,
-              quizType: quizType,
-              quizDifficulty: quizDifficulty,
-            },
-          });
+          // navigate("/play", {
+          //   state: {
+          //     quizData: response.data.results,
+          //     quizCount: quizCount,
+          //     quizType: quizType,
+          //     quizDifficulty: quizDifficulty,
+          //   },
+          // });
+          const selectedQuiz = {
+            quizData: response.data.results,
+            quizCount: quizCount,
+            quizType: quizType,
+            quizDifficulty: quizDifficulty,
+            wager: wager,
+          };
+          props.setQuiz(selectedQuiz);
+          props.deploy();
         });
     } else {
       toast.error(`Please Enter the Player's Name`);
@@ -50,7 +59,7 @@ export default function Quiz() {
   return (
     <div className="quiz-main">
       <ToastContainer />
-      <h1>React Quiz</h1>
+      <h1>Set Up Wager And Select Quiz</h1>
       <TextField
         required
         style={{ marginBottom: 20 }}
@@ -61,6 +70,14 @@ export default function Quiz() {
         onChange={(e) => getWager(e.target.value)}
         value={wager}
       />
+      {/* <input
+        sx={{ minWidth: 220 }}
+        style={{ marginTop: 20 }}
+        type="number"
+        placeholder={wager}
+        onChange={(e) => getWager(e.target.value)}
+        label="Set Wager"
+      /> */}
       <Input setQuizCount={setQuizCount} quizCount={quizCount} />
       <Select quizType={quizType} handleChange={handleChange} />
       <QuizDifficulty

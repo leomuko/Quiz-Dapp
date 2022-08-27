@@ -1,16 +1,21 @@
 export const views = {
-  CONNECT_ACCOUNT: 'Connect account',
-  DEPLOY_OR_ATTACH: 'Deploy or attach',
+  CONNECT_ACCOUNT: "Connect account",
+  DEPLOY_OR_ATTACH: "Deploy or attach",
+  DEPLOY: "Deploy",
 
   //Deployer
-  DEPLOYING: 'Deploying',
-  WAIT_FOR_ATTACHER: 'Wait for attacher',
-  
+  DEPLOYING: "Deploying",
+  WAIT_FOR_ATTACHER: "Wait for attacher",
+
   //Attacher
-  PASTE_CONTRACT_INFO: 'Paste contract info',
-  ATTACHING: 'Attaching',
+  PASTE_CONTRACT_INFO: "Paste contract info",
+  ATTACHING: "Attaching",
 
   //GENERIC
-  TIME_OUT: 'Timeout',
-  TEST_VIEW: 'Test view'
-}
+  TIME_OUT: "Timeout",
+  TEST_VIEW: "Test view",
+
+  //QUIZ
+  SET_QUIZ: "Set quiz",
+  DO_QUIZ: "Do Quiz",
+};

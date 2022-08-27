@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Card from "./common/Card";
 
-export default function PlayQuiz() {
-  const { state } = useLocation();
-  const navigate = useNavigate();
+export default function PlayQuiz(props) {
+  //const { state } = useLocation();
+  //const navigate = useNavigate();
   const [questionCounter, setQuesCounter] = useState(1);
   const [totalQuiz, setTotalQuiz] = useState(1);
   const [questionsArray, setQuesArray] = useState([]);
@@ -13,9 +13,10 @@ export default function PlayQuiz() {
   const [quizDifficulty, setQuizDifficulty] = useState("");
   const [result, setResult] = useState(0);
   const [playerName, setPlayerName] = useState("");
+  const [quizSubmit, onQuizSubmit] = useState("You can Submit your Score.");
 
   React.useEffect(() => {
-    const { quizData, quizCount, quizType, quizDifficulty } = state;
+    const { quizData, quizCount, quizType, quizDifficulty } = props.quiz;
     setQuesArray(quizData);
     setTotalQuiz(quizCount);
     setQuizDifficulty(quizDifficulty);
@@ -30,21 +31,15 @@ export default function PlayQuiz() {
   };
 
   const submitQuiz = () => {
-    // addDoc(databaseRef, {
-    //     playerName: playerName,
-    //     timeStamp: moment().format('LLL'),
-    //     difficulty: quizDifficulty,
-    //     category: questionsArray[0].category,
-    //     finalScore: result
-    // })
-    //     .then(() => {
-    //         navigate('/results', {
-    //             state: {
-    //                 finalResults: result,
-    //             }
-    //         })
-    //     })
-    console.log(result);
+    const percentage = ~~((result / totalQuiz) * 100);
+    console.log(percentage);
+    if (percentage >= 70) {
+      onQuizSubmit("You have won \n, Score : " + percentage);
+    } else {
+      onQuizSubmit("You have lost\n, Score : " + percentage);
+    }
+    props.getResults(percentage);
+    props.attach();
   };
   return (
     <div>
@@ -65,7 +60,7 @@ export default function PlayQuiz() {
       ) : (
         <div className="submit-container">
           <h2>The Quiz is now finished..</h2>
-          <p>You can Submit your Score..</p>
+          <p>{quizSubmit}</p>
           <Button
             onClick={submitQuiz}
             variant="contained"
